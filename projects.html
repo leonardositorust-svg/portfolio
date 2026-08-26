@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects & Portfolio — Leonardo Tiofanni Sitorus</title>
+    <style>
+        :root {
+            --bg-color: #0B0F17;
+            --card-bg: #151A23;
+            --card-border: #242B38;
+            --text-main: #94A3B8;
+            --text-heading: #F8FAFC;
+            --accent: #069f08;
+            --accent-hover: #22a824f4;
+            --accent-glow: rgba(6, 159, 8, 0.25);
+            --nav-bg: rgba(11, 15, 23, 0.85);
+            --tech-tag-bg: rgba(255, 255, 255, 0.05);
+            --ghost-hover-bg: rgba(255, 255, 255, 0.05);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --card-border: #E2E8F0;
+            --text-main: #475569;
+            --text-heading: #0F172A;
+            --accent: #069f08;
+            --accent-hover: #22a824f4;
+            --accent-glow: rgba(6, 159, 8, 0.15);
+            --nav-bg: rgba(248, 250, 252, 0.85);
+            --tech-tag-bg: #F1F5F9;
+            --ghost-hover-bg: rgba(15, 23, 42, 0.05);
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            scroll-behavior: smooth;
+            transition: background-color 0.4s var(--ease-smooth), color 0.4s var(--ease-smooth);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            z-index: 1000;
+            padding: 0.8rem 2rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .nav__brand {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            font-family: monospace;
+            transition: transform 0.3s var(--ease-out-back);
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .nav__brand:hover {
+            transform: scale(1.03);
+        }
+
+        .typewriter-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-left: 6px;
+            display: inline-block;
+            width: 220px;
+            overflow: hidden;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .cursor-underscore {
+            color: var(--accent);
+            font-weight: 700;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .nav__links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav__links a {
+            color: var(--text-heading);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 4px 0;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav__links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s var(--ease-smooth);
+            border-radius: 2px;
+        }
+
+        .nav__links a:hover::after {
+            width: 100%;
+        }
+
+        .nav__links a:hover {
+            color: var(--accent);
+        }
+
+        .nav__item--dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px) scale(0.96);
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform-origin: top center;
+            transform: translateX(-50%) translateY(12px) scale(0.96);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.6rem 0;
+            min-width: 240px;
+            box-shadow: 0 15px 35px var(--shadow-color);
+            z-index: 1001;
+            transition: all 0.3s var(--ease-smooth);
+            pointer-events: none;
+        }
+
+        .nav__item--dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .dropdown-menu a {
+            padding: 10px 18px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            white-space: nowrap;
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu a::after {
+            display: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--ghost-hover-bg);
+            color: var(--accent);
+            padding-left: 22px;
+        }
+
+        .nav__actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-self: end;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out-back);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: rotate(15deg) scale(1.08);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .btn--resume {
+            border: 1px solid var(--card-border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: var(--text-heading);
+            transition: all 0.3s var(--ease-smooth);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            white-space: nowrap;
+        }
+
+        .btn--resume:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        /* --- LAYOUT & CARDS --- */
+        .section {
+            padding: 100px 2rem 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            scroll-margin-top: 100px;
+        }
+
+        .section__title {
+            color: var(--text-heading);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            position: relative;
+            padding-bottom: 6px;
+        }
+
+        .section__title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform-origin: left;
+            transition: transform 0.6s var(--ease-smooth);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-heading);
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: #FFFFFF;
+            border-color: var(--accent);
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .projects-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            transition: all 0.4s var(--ease-smooth);
+            opacity: 1;
+            filter: blur(0);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 30px var(--shadow-color), 0 0 20px var(--accent-glow);
+        }
+
+        .project-card.hide {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .project-card.animate-in {
+            animation: cardAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+                filter: blur(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .company-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            object-fit: contain;
+            background: #FFFFFF;
+            padding: 8px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.4s var(--ease-out-back);
+        }
+
+        .card:hover .company-logo {
+            transform: scale(1.08) rotate(-3deg);
+        }
+
+        .card-title {
+            color: var(--text-heading);
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .card-meta {
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-family: monospace;
+        }
+
+        .tech-stack {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-tag {
+            background: var(--tech-tag-bg);
+            border: 1px solid var(--card-border);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-heading);
+        }
+
+        .btn--media {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn--media:hover {
+            background: var(--accent);
+            color: #FFFFFF;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .media-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .media-modal.active {
+            display: flex;
+        }
+
+        .media-modal__content {
+            position: relative;
+            width: 90%;
+            max-width: 680px;
+            max-height: 85vh;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px var(--shadow-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .media-modal__close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #FFF;
+            border: none;
+            font-size: 1.8rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .media-modal__close:hover {
+            background: var(--accent);
+        }
+
+        .media-modal video,
+        .media-modal img {
+            width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            display: none;
+            border-radius: 16px;
+            outline: none;
+        }
+
+        .media-modal video.active,
+        .media-modal img.active {
+            display: block;
+        }
+
+        @media (max-width: 1100px) {
+            .typewriter-text { width: 180px; }
+            .nav__links { gap: 1rem; }
+            .nav__links a { font-size: 0.88rem; }
+        }
+
+        @media (max-width: 850px) {
+            nav {
+                grid-template-columns: 1fr auto;
+                row-gap: 0.8rem;
+                padding: 0.8rem 1.2rem;
+            }
+            .nav__links {
+                grid-column: 1 / -1;
+                order: 3;
+                justify-content: center;
+                gap: 1.2rem;
+                padding-top: 0.2rem;
+            }
+            .typewriter-text { width: 160px; }
+        }
+
+        @media (max-width: 600px) {
+            .typewriter-text { width: 120px; }
+            .nav__links { flex-wrap: wrap; gap: 0.8rem; }
+            .section { padding: 90px 1.5rem 30px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html#top" class="nav__brand">
+            LTS | <span id="typewriter" class="typewriter-text"></span>
+        </a>
+        
+        <div class="nav__links">
+            <a href="index.html#top">Home</a>
+            <a href="index.html#education">Education</a>
+            <a href="index.html#experience">Experience</a>
+            
+            <div class="nav__item--dropdown">
+                <a href="projects.html">Projects ▾</a>
+                <div class="dropdown-menu">
+                    <a href="projects.html#all">All Projects</a>
+                    <a href="projects.html#data-architecture">Data Architecture & Visualization</a>
+                    <a href="projects.html#operation-process">Operation Process Optimization</a>
+                    <a href="projects.html#process-automation">Process & Integration Automation</a>
+                    <a href="projects.html#cloud-app">Custom Cloud App Development</a>
+                </div>
+            </div>
+
+            <a href="index.html#skills">Skills</a>
+            <a href="index.html#about">Contact</a>
+        </div>
+
+        <div class="nav__actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">🌙</button>
+            <a class="btn--resume" href="Assets/worksamples/Leonardo Tiofanni Sitorus - CV.pdf" target="_blank">Resume</a>
+        </div>
+    </nav>
+
+    <section class="section">
+        <h2 class="section__title">Projects</h2>
+
+        <div class="filter-tabs">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="data-architecture">Data Architecture & Visualization</button>
+            <button class="filter-btn" data-filter="operation-process">Operation Process Optimization</button>
+            <button class="filter-btn" data-filter="process-automation">Process & Integration Automation</button>
+            <button class="filter-btn" data-filter="cloud-app">Custom Cloud App Development</button>
+        </div>
+
+        <div class="projects-grid">
+            <div class="card project-card" data-category="cloud-app">
+                <div class="card-header">
+                    <img src="Assets/images/icon2.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">AI Chat Agent (LaeAI)</h3>
+                        <span class="card-meta">Custom Cloud App Development</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Operational teams previously spent hours reviewing weekly issues across meetings, lacking a centralized knowledge resource.<br>
+                <strong>Solution:</strong> Built an AI-powered knowledge-based agent integrated with performance data, KPI definitions, and targets to provide real-time insights and actionable suggestions.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">SQL</span>
+                    <span class="tech-tag">AI</span>
+                    <span class="tech-tag">Flow Automation</span>
+                    <span class="tech-tag">Data Engineering</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/laeai.mp4" data-type="video">▶ Watch Video Demo</button>            
+            </div>
+
+            <div class="card project-card" data-category="process-automation">
+                <div class="card-header">
+                    <img src="Assets/images/icon2.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">Notification Bot</h3>
+                        <span class="card-meta">Process & Integration Automation</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Weekly performance reviews relied heavily on manual data extraction and post-hoc meetings, which was time-consuming, reactive, and limited in scaling insights.<br>
+                <strong>Solution:</strong> Generate automated weekly alerts analyzing historical performance to surface actionable insights.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">RPA</span>
+                    <span class="tech-tag">SQL</span>
+                    <span class="tech-tag">Data Engineering</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/mamangbot.png" data-type="image">🖼 View Sample Image</button>
+            </div>
+            
+            <div class="card project-card" data-category="data-architecture">
+                <div class="card-header">
+                    <img src="Assets/images/icon1.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">Shipment Progress Dashboard</h3>
+                        <span class="card-meta">Data Architecture & Visualization</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Most operations teams relied on manual tracking for delivery performance reports and delay identification, causing cutoff delays and limited transparency.<br>
+                <strong>Solution:</strong> Developed an automated reporting dashboard providing real-time shipment tracking, enhanced transparency, and data export features for localized user analysis.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Power BI</span>
+                    <span class="tech-tag">MS Flow</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/pbischenker.mp4" data-type="video">▶ Watch Video Demo</button>
+            </div>
+
+            <div class="card project-card" data-category="data-architecture">
+                <div class="card-header">
+                    <img src="Assets/images/icon1.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">Cost Leakage Estimation Dashboard</h3>
+                        <span class="card-meta">Data Architecture & Visualization</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Cost performance data was shared with delays (monthly + 2 weeks), restricting operational teams from addressing cost variances promptly.<br>
+                <strong>Solution:</strong> Provided daily visibility into key financial drivers enabling early detection of cost leakage and proactive EBIT performance management.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">RPA</span>
+                    <span class="tech-tag">SQL</span>
+                    <span class="tech-tag">Data Engineering</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/pnl.jpg" data-type="image">🖼 View Sample Image</button>
+            </div>
+
+            <div class="card project-card" data-category="data-architecture">
+                <div class="card-header">
+                    <img src="Assets/images/icon1.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">Ceiling Productivity Dashboard</h3>
+                        <span class="card-meta">Data Architecture & Visualization</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Productivity targets were not dynamically calibrated to reflect real performance capabilities during different times of the year, leading to suboptimal manpower planning.<br>
+                <strong>Solution:</strong> Integrated seasonal variability into BI reports to enhance productivity benchmark accuracy for smarter resource allocation and data-driven target setting.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">SQL</span>
+                    <span class="tech-tag">Data Engineering</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/ceiling productivity.jpg" data-type="image">🖼 View Sample Image</button>
+            </div>
+
+            <div class="card project-card" data-category="data-architecture">
+                <div class="card-header">
+                    <img src="Assets/images/icon1.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">Workforce Grading Dashboard</h3>
+                        <span class="card-meta">Data Architecture & Visualization</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Warehouse productivity was measured at an overall level with manual workforce grading, making it difficult to capture true performance differences across specific activities.<br>
+                <strong>Solution:</strong> Developed a digital, data-driven dashboard that automates productivity measurement across warehouse activities for fair evaluation and better workforce allocation.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">SQL</span>
+                    <span class="tech-tag">Data Engineering</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/mpgrading.png" data-type="image">🖼 View Sample Image</button>
+            </div>
+
+            <div class="card project-card" data-category="cloud-app">
+                <div class="card-header">
+                    <img src="Assets/images/icon2.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">Inventory Stock Take Mobile App</h3>
+                        <span class="card-meta">Custom Cloud App Development</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Transportation team grappled with manual device tracking and inefficient processes, leading to operational challenges.<br>
+                <strong>Solution:</strong> Developed a mobile application that automates data transmission to the database, provides data visualization, and offers real-time device tracking.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Power Apps</span>
+                    <span class="tech-tag">Power BI</span>
+                    <span class="tech-tag">MS Flow</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/gpstracker.mp4" data-type="video">▶ Watch Video Demo</button>
+            </div>
+
+            <div class="card project-card" data-category="cloud-app">
+                <div class="card-header">
+                    <img src="Assets/images/icon2.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">AIO Application Ticketing Help Desk</h3>
+                        <span class="card-meta">Custom Cloud App Development</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Administration and support teams struggled with informal discussions/calls and inefficient processes, creating traceability and reporting issues.<br>
+                <strong>Solution:</strong> Created an app streamlining ticket submission, automated email notifications, in-app messaging, document attachments, and SLA tracking with task prioritization logic.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Power Apps</span>
+                    <span class="tech-tag">MS Flow</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/ticketingplatform.mp4" data-type="video">▶ Watch Video Demo</button>
+            </div>
+
+            <div class="card project-card" data-category="process-automation">
+                <div class="card-header">
+                    <img src="Assets/images/icon2.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">Appscript Chatbot (WhatsApp to Sheet Data Transmission)</h3>
+                        <span class="card-meta">Process & Integration Automation</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Managing order releases and delivery milestones via WhatsApp groups caused delays and misinformation, especially after office hours.<br>
+                <strong>Solution:</strong> Developed a script to transmit received WhatsApp messages directly into Google Sheets within 1-minute intervals for real-time reporting.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Appscript</span>
+                    <span class="tech-tag">API Integration</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/arcb.mp4" data-type="video">▶ Watch Video Demo</button>
+            </div>
+
+            <div class="card project-card" data-category="operation-process">
+                <div class="card-header">
+                    <img src="Assets/images/icon2.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">VBA PDF Document Generator</h3>
+                        <span class="card-meta">Operation Process Optimization</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Manually copying database info, pasting into documents, and saving as PDF files was time-consuming and prone to human errors.<br>
+                <strong>Solution:</strong> Developed a VBA macro to automate PDF document generation straight from the database, standardizing output and significantly cutting manual effort.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">VBA</span>
+                    <span class="tech-tag">Macro</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/podgenerator.mp4" data-type="video">▶ Watch Video Demo</button>
+            </div>
+
+            <div class="card project-card" data-category="operation-process">
+                <div class="card-header">
+                    <img src="Assets/images/icon2.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">VBA System Event Updates Automation</h3>
+                        <span class="card-meta">Operation Process Optimization</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Managing event data in the Transportation System involved exporting data and performing manual manipulations, causing delays and errors.<br>
+                <strong>Solution:</strong> Implemented a VBA solution automating SFTP data retrieval, layout compliance, and local storage to streamline missing event updates and email drafting.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">VBA</span>
+                    <span class="tech-tag">Macro</span>
+                    <span class="tech-tag">SFTP</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/eventupdate.mp4" data-type="video">▶ Watch Video Demo</button>
+            </div>
+
+            <div class="card project-card" data-category="process-automation">
+                <div class="card-header">
+                    <img src="Assets/images/icon2.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">OCR Reader Data Extraction (RPA)</h3>
+                        <span class="card-meta">Process & Integration Automation</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> Operations admins manually downloaded documents from transporter emails and gathered WhatsApp updates prior to system entry.<br>
+                <strong>Solution:</strong> Utilized OCR reading via RPA to extract document data automatically and transfer information straight into the ERP system in a timely manner.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">RPA</span>
+                    <span class="tech-tag">OCR</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/ocr.gif" data-type="image">🖼 View Sample Flow</button>
+            </div>
+
+            <div class="card project-card" data-category="process-automation">
+                <div class="card-header">
+                    <img src="Assets/images/icon2.png" alt="Project Logo" class="company-logo" onerror="this.style.display='none'">
+                    <div>
+                        <h3 class="card-title">IoT Live Tracking Implementation</h3>
+                        <span class="card-meta">Process & Integration Automation</span>
+                    </div>
+                </div>
+                <p><strong>Background:</strong> The previous global solution lacked a stable live tracking system, creating difficulties in delivering real-time delivery visibility to stakeholders.<br>
+                <strong>Solution:</strong> Proposed a swagger approach to gather real-time transport partner data, enabling end-to-end shipment tracking across regions.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">IoT</span>
+                    <span class="tech-tag">API/Swagger</span>
+                    <span class="tech-tag">Fleet Monitoring</span>
+                </div>
+                <button class="btn--media" data-src="Assets/worksamples/iot.png" data-type="image">🖼 View Sample Image</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="media-modal" id="mediaModal">
+        <div class="media-modal__content">
+            <button class="media-modal__close" id="closeModal">&times;</button>
+            <video id="modalVideoPlayer" controls autoplay muted>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <img id="modalImageViewer" src="" alt="Project Preview">
+        </div>
+    </div>
+
+    <script>
+        const brandPhrases = [
+            "Data Analytics",
+            "Cloud App Development",
+            "Performance & Strategy",
+            "System Enhancement",
+            "Operational Excellence"
+        ];
+
+        const typewriterElement = document.getElementById("typewriter");
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 80;
+        const deletingSpeed = 40;
+        const pauseDelay = 1800;
+
+        function typeEffect() {
+            const currentPhrase = brandPhrases[phraseIndex];
+            const currentText = isDeleting 
+                ? currentPhrase.substring(0, charIndex - 1) 
+                : currentPhrase.substring(0, charIndex + 1);
+
+            if (isDeleting) {
+                charIndex--;
+            } else {
+                charIndex++;
+            }
+
+            typewriterElement.innerHTML = currentText + '<span class="cursor-underscore">_</span>';
+
+            let currentSpeed = isDeleting ? deletingSpeed : typingSpeed;
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                currentSpeed = pauseDelay;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % brandPhrases.length;
+                currentSpeed = 400;
+            }
+
+            setTimeout(typeEffect, currentSpeed);
+        }
+
+        const toggleBtn = document.getElementById('themeToggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+
+        if (currentTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            toggleBtn.textContent = '☀️';
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            if (theme === 'light') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+                toggleBtn.textContent = '🌙';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                toggleBtn.textContent = '☀️';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            typeEffect();
+
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+
+            function applyFilter(category) {
+                filterBtns.forEach(btn => {
+                    if (btn.getAttribute('data-filter') === category) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                let visibleIndex = 0;
+                projectCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    card.classList.remove('animate-in');
+                    
+                    if (category === 'all' || category === cardCategory) {
+                        card.classList.remove('hide');
+                        card.style.animationDelay = `${visibleIndex * 0.08}s`;
+                        void card.offsetWidth;
+                        card.classList.add('animate-in');
+                        visibleIndex++;
+                    } else {
+                        card.classList.add('hide');
+                    }
+                });
+            }
+
+            const hash = window.location.hash.replace('#', '') || 'all';
+            applyFilter(hash);
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filterValue = btn.getAttribute('data-filter');
+                    window.location.hash = filterValue;
+                    applyFilter(filterValue);
+                });
+            });
+
+            window.addEventListener('hashchange', () => {
+                const newHash = window.location.hash.replace('#', '') || 'all';
+                applyFilter(newHash);
+            });
+        });
+
+        const modal = document.getElementById('mediaModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const videoPlayer = document.getElementById('modalVideoPlayer');
+        const imageViewer = document.getElementById('modalImageViewer');
+        const mediaButtons = document.querySelectorAll('.btn--media');
+
+        mediaButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const src = button.getAttribute('data-src');
+                const type = button.getAttribute('data-type');
+
+                if (type === 'video') {
+                    imageViewer.classList.remove('active');
+                    videoPlayer.src = src;
+                    videoPlayer.classList.add('active');
+                } else {
+                    videoPlayer.classList.remove('active');
+                    videoPlayer.pause();
+                    imageViewer.src = src;
+                    imageViewer.classList.add('active');
+                }
+                modal.classList.add('active');
+            });
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            videoPlayer.pause();
+            videoPlayer.src = '';
+            imageViewer.src = '';
+        };
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    </script>
+</body>
+
+</html>
